@@ -1,0 +1,2 @@
+# aigotoken.sc
+Aigo Token
