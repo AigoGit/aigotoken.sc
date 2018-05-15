@@ -20,6 +20,7 @@ contract AigoTokensale is Ownable {
     bool delivered;
   }
 
+  event TokensaleFinishTimeChanged(uint256 oldTime, uint256 newTime);
   event Payment(address indexed investor, uint256 weiValue, uint256 baseValue);
   event Delivered(address indexed investor, uint256 amount);
   event TokensaleFinished(uint256 tokensSold, uint256 tokensReturned);
@@ -60,9 +61,15 @@ contract AigoTokensale is Ownable {
     finishTime = _finishTime;
   }
 
-  function setBaseRate(uint256 _baseRate, uint256 _baseRateDenominator) {
+  function setBaseRate(uint256 _baseRate, uint256 _baseRateDenominator) public onlyOwner {
     baseRate = _baseRate;
     baseRateDenominator = _baseRateDenominator;
+  }
+
+  function setFinishTime(uint256 _finishTime) public onlyOwner {
+    uint256 oldTime = finishTime;
+    finishTime = _finishTime;
+    emit TokensaleFinishTimeChanged(oldTime, finishTime);
   }
 
   function() public payable {
